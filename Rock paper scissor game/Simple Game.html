@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GAME</title>
+</head>
+<link rel="stylesheet" href="Simple game .css">
+<body>
+    <h1>Rock Paper Scissors Game</h1>
+    
+
+<button class="choice-button" onclick="
+ let computerChoice = getComputerChoice();
+ let result = getresult('Rock', computerChoice);
+
+alertResult('Rock', computerChoice, result);
+"> 
+<img src="image /rock.png" alt="Rock image "class
+="choice-image" >
+
+</button>
+
+<button class="choice-button" onclick=" 
+   let computerChoice = getComputerChoice();
+   let result = getresult('Paper', computerChoice);
+
+alertResult('Paper', computerChoice, result);
+"> 
+<img src="image /paper.png" alt="Paper image "class
+="choice-image" >
+
+</button>
+
+<button class="choice-button" onclick=" 
+   let computerChoice = getComputerChoice();
+   let result = getresult('Scissors', computerChoice);
+
+alertResult('Scissors', computerChoice, result);
+"> 
+<img src="image /scissor.png" alt="Scissors image "class
+="choice-image" >
+
+</button>
+
+<h3 class="urs-move"></h3>
+<h3 class="cmp-move"></h3>
+<h3 class="result"></h3>
+<h3 class="score"></h3>
+
+<button onclick="
+localStorage.clear();
+    resetScore();
+    ">
+    Clear Score
+</button>
+<script>
+  let score;
+  let scoreStr = localStorage.getItem('score');
+  resetScore(scoreStr);
+
+    function resetScore(scoreStr) 
+    {   
+        score  = scoreStr ? JSON.parse(scoreStr) : {
+            win : 0,
+            lose : 0,
+            tie : 0,
+        };
+        score.scoreDisplay = function() 
+        {
+            return `Wins: ${this.win}, Losses: ${this.lose}, Ties: ${this.tie}`;
+        };
+        alertResult();
+        
+    }
+
+
+    function getComputerChoice() {
+        let randomNumber = Math.random() * 3;
+        if (randomNumber > 0 && randomNumber <= 1) {
+            return "Rock";
+        } else if (randomNumber > 1 &&  randomNumber <= 2) {
+            return "Paper";
+        } else {
+            return "Scissors";
+        }
+    }
+
+
+    function getresult(playerChoice, computerChoice){
+        if (playerChoice === 'Rock') {
+            if (computerChoice === 'Rock') {
+                score.tie+=1;
+                return "It's a tie!"; 
+                
+            } else if (computerChoice === 'Paper') {
+                 score.lose+=1;
+                return "You lose!";
+               
+            } else { 
+                score.win+=1;
+                return "You win!";
+               
+            }
+        } else if (playerChoice === 'Paper') {
+            if (computerChoice === 'Paper') {
+                score.tie+=1;
+                return "It's a tie!";
+                
+            } else if (computerChoice === 'Scissors') {
+                score.lose+=1;
+                return "You lose!";
+                
+            } else {
+                score.win+=1;
+                return "You win!";
+                
+            }
+        } else {
+            if (computerChoice === 'Scissors') {
+                score.tie+=1;
+                return "It's a tie!";
+                
+            } else if (computerChoice === 'Rock') {score.lose+=1;
+                return "You lose!";
+                
+            } else { 
+                score.win+=1;
+                return "You win!";
+               
+            }
+        }
+    }
+
+
+
+    function alertResult(playerChoice, computerChoice, result) {
+        localStorage.setItem('score', JSON.stringify(score));
+        document.querySelector('.urs-move').innerText = 
+        playerChoice !== undefined ? `Your choice is ${playerChoice}.` : '';
+        document.querySelector('.cmp-move').innerText = 
+        computerChoice !== undefined ? `Computer chose ${computerChoice}.` : '';
+        document.querySelector('.result').innerText = 
+        result !== undefined ? `The final result is ${result}.` : '';
+        document.querySelector('.score').innerText = `The score is: ${score.scoreDisplay()}`;
+    
+    }
+
+    
+</script>
+</body>
+
+</html>
